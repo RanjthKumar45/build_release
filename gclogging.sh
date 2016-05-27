@@ -134,6 +134,8 @@ function init(){
 
 mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
+mkdir $WORKSPACE/report
+
 MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/console"
 MAIL_JOB_NAME=$JOB_NAME
 
@@ -146,7 +148,7 @@ check_metadata_quality
 acceptance_testing
 result
 
-eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
+eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html
 
 
 

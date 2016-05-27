@@ -29,7 +29,7 @@ echo " "
 function check_syntax_errors(){	
 heading "[Starting] check syntax errors using puppet parser"
 
-	check_syntax_errors=`echo puppet parser validate $WORKSPACE/project/manifests/*.pp 1>&2`
+	check_syntax_errors=`echo puppet parser validate $WORKSPACE/project/manifests/*.pp`
 	$check_syntax_errors>$WORKSPACE/log/check_syntax_errors.txt
 	cat $WORKSPACE/log/check_syntax_errors.txt
 
