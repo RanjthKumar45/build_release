@@ -103,7 +103,7 @@ msg "2. Check code quality : "
 msg "3. Check metadata quality : "
 
 	
-	if [ ! -s $WORKSPACE/log/acceptance/check_metadata_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
 		echo "No errors"
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
