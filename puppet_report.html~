@@ -27,25 +27,32 @@ td
 Following are test report for puppet module : ${MAIL_JOB_NAME} </p><br/>
 
 <table>
-<tr><th>Puppet Compatibility (Syntax errors) Check Using "puppet parser" Tool</th></tr>
+<tr><th align="left">Puppet Compatibility (Syntax errors) Check Using "puppet parser" Tool</th></tr>
 <tr><td>${PUPPET_COMPATIBILTY_CHEK_MAIL}</td></tr>
 </table>
 <br/>
 
 <table>
-<tr><th>Code Quality Check Using "puppet-lint" Tool</th></tr>
+<tr><th align="left">Code Quality Check Using "puppet-lint" Tool</th></tr>
 <tr><td>${PUPPET_CODE_QUALITY_CHEK_MAIL}</td></tr>
 </table>
 <br/>
 
 <table>
-<tr><th>Metadata Quality Check Using "metadata-json-lint" Tool</th></tr>
+<tr><th align="left">Metadata Quality Check Using "metadata-json-lint" Tool</th></tr>
 <tr><td>${PUPPET_META_DATA_CHEK_MAIL}</td></tr>
 </table>
 <br/>
 
 <table>
-<tr><th colspan="2">Acceptance Testing Using "beaker-rspec" Tool</th></tr>
+<tr><th colspan="2" align="left">Unit Testing Using "rspec-puppet" Tool</th></tr>
+<tr><td>Test Result</td><td>${PUPPET_UNIT_TEST_RESULT_MAIL}</td></tr>
+<tr><td>Resource Coverage</td><td>${PUPPET_META_DATA_CHEK_MAIL}</td></tr>
+</table>
+<br/>
+
+<table>
+<tr><th colspan="2" align="left">Acceptance Testing Using "beaker-rspec" Tool</th></tr>
 ${PUPPET_ACCEPTANCE_TESTING_MAIL}
 </table>
 <br/>

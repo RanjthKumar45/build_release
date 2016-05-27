@@ -71,6 +71,21 @@ heading "[Starting] Acceptance Testing using Beaker-rspec"
 	popd
 }
 
+
+function unit_testing_resource_coverage(){
+
+heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
+
+	unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/classes/*_spec.rb`
+	$unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
+	cat $WORKSPACE/log/unit_testing_resource_coverage.txt
+
+	#This for just report purpose	
+	resouce_coverage=`echo sed -n '/Total resources/,$p' $WORKSPACE/log/unit_testing_resource_coverage.txt`
+	$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
+}
+
+
 function result(){
 heading "Result"
 
@@ -108,12 +123,31 @@ msg "3. Check metadata quality : "
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
 		cat $WORKSPACE/log/check_metadata_quality.txt
-		value=$(<$WORKSPACE/log/acceptance/check_metadata_quality.txt)
+		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
 		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
+msg "4. Unit Testing"
+	
+	unit_testing=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/resouce_coverage.txt`
+	echo $unit_testing
 
-msg "4. Acceptance testing : "
+	if [[ "$unit_testing" =~ "^[0-9]+ examples, 0 failures" ]]; then
+    		PUPPET_UNIT_TEST_RESULT_MAIL="<span class='error'>${unit_testing}</span>"
+	else
+    		PUPPET_UNIT_TEST_RESULT_MAIL="<span class='success'>${unit_testing}</span>"
+	fi
+
+msg "5. Resource Coverage"
+
+	sed --in-place '/^Finished*/d' $WORKSPACE/log/resouce_coverage.txt
+	sed --in-place '/^[0-9]+ examples, [0-9]+ failures/d' $WORKSPACE/log/resouce_coverage.txt
+	
+	cat $WORKSPACE/log/resouce_coverage.txt
+	value=$(<$WORKSPACE/log/resouce_coverage.txt)
+	PUPPET_META_DATA_CHEK_MAIL="${value}"
+
+msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
 	for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
 	do
