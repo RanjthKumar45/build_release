@@ -103,7 +103,7 @@ msg "2. Check code quality : "
 msg "3. Check metadata quality : "
 
 	
-	if [ ! -s $WORKSPACE/log/acceptance/check_metadata_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
 		echo "No errors"
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
@@ -136,7 +136,7 @@ mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
 mkdir $WORKSPACE/report
 
-MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/console"
+MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/$BUILD_NUMBER/console"
 MAIL_JOB_NAME=$JOB_NAME
 
 }
