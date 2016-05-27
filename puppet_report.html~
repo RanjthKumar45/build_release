@@ -24,9 +24,6 @@ td
 
 </style>
 <body>
-<p>Hi Team,<br>
-<br>
-
 Following are test report for puppet module : ${MAIL_JOB_NAME} </p><br/>
 
 <table>
@@ -48,16 +45,13 @@ Following are test report for puppet module : ${MAIL_JOB_NAME} </p><br/>
 <br/>
 
 <table>
-<tr><th>Acceptance Testing Using "beaker-rspec" Tool</th></tr>
+<tr><th colspan="2">Acceptance Testing Using "beaker-rspec" Tool</th></tr>
 ${PUPPET_ACCEPTANCE_TESTING_MAIL}
 </table>
 <br/>
 
 <strong><i>For Detailed report: </i></strong> <a href='${MAIL_JOB_URL}'>${MAIL_JOB_URL}</a><br/>
 <br/>
-<i>Note:This is an Auto Generated Mail triggered from Jenkins Job</i>
-<br/><br/>
-Thanks<br />
 </div>
 </body>
 </html>
