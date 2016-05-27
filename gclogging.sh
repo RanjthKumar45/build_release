@@ -30,8 +30,8 @@ function check_syntax_errors(){
 heading "[Starting] check syntax errors using puppet parser"
 
 	check_syntax_errors=`echo puppet parser validate $WORKSPACE/manifests/*.pp`
-	$check_syntax_errors>check_syntax_errors.txt
-	cat check_syntax_errors.txt
+	$check_syntax_errors>$WORKSPACE/log/check_syntax_errors.txt
+	cat $WORKSPACE/log/check_syntax_errors.txt
 
 }
 
@@ -40,12 +40,8 @@ function check_code_quality(){
 heading "[Starting] code quality check using puppet-lint tool"
 
 	check_code_quality=`echo puppet-lint $WORKSPACE/project`
-	$check_code_quality>check_code_quality.txt
-	cat check_code_quality.txt
-	if [ ! -s check_code_quality.txt ]; then
-		check_code_quality="No errors"
-	fi
-
+	$check_code_quality>$WORKSPACE/log/check_code_quality.txt
+	cat $WORKSPACE/log/check_code_quality.txt
 }
 
 
@@ -53,11 +49,8 @@ function check_metadata_quality(){
 heading "[Starting] Metadata quality check using metadata-json-lint tool"
 
 	check_metadata_quality=`echo metadata-json-lint $WORKSPACE/project/metadata.json`
-	$check_metadata_quality>check_metadata_quality.txt
-	cat check_metadata_quality.txt	
-	if [ ! -s check_metadata_quality.txt ]; then
-		check_metadata_quality="No errors"
-	fi
+	$check_metadata_quality>$WORKSPACE/log/check_metadata_quality.txt
+	cat $WORKSPACE/log/check_metadata_quality.txt	
 }
 
 
@@ -66,14 +59,14 @@ heading "[Starting] Acceptance Testing using Beaker-rspec"
 	pushd $WORKSPACE/project
 		sudo bundle install 	
 		sed --in-place '/log_level: verbose/d' "$WORKSPACE/project/spec/acceptance/nodesets/"*.yml
-		for entry in "$WORKSPACE/spec/acceptance/nodesets"/*
+		for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
 		do
 		  node_file=$(basename $entry)
 		  filename="${node_file%.*}"
 		  msg "OS: $filename"  	
 		  result=`echo sudo BEAKER_set="${filename}" bundle exec rspec spec/acceptance`
-		  $result>${filename}.txt
-		  cat ${filename}.txt
+		  $result>$WORKSPACE/log/${filename}.txt
+		  cat $WORKSPACE/log/${filename}.txt
 		done
 	popd
 }
@@ -83,12 +76,12 @@ heading "Result"
 
 msg "1. Syntax errors : "
 	
-	if [ ! -s check_syntax_errors.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_syntax_errors.txt ]; then
 		echo "No syntax errors"
 		PUPPET_COMPATIBILTY_CHEK_MAIL="<span class='success'>No syntax errors</span>"
 	else
-		cat check_syntax_errors.txt
-		value=$(<check_syntax_errors.txt)
+		cat $WORKSPACE/log/check_syntax_errors.txt
+		value=$(<$WORKSPACE/log/check_syntax_errors.txt)
 		PUPPET_COMPATIBILTY_CHEK_MAIL="<span class='error'>${value}</span>"
 		
 	fi
@@ -97,12 +90,12 @@ msg "1. Syntax errors : "
 msg "2. Check code quality : "
 	
 		
-	if [ ! -s check_code_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_code_quality.txt ]; then
 		echo "No errors"
 		PUPPET_CODE_QUALITY_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
-		cat check_code_quality.txt
-		value=$(<check_code_quality.txt)
+		cat $WORKSPACE/log/check_code_quality.txt
+		value=$(<$WORKSPACE/log/check_code_quality.txt)
 		PUPPET_CODE_QUALITY_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
@@ -110,12 +103,12 @@ msg "2. Check code quality : "
 msg "3. Check metadata quality : "
 
 	
-	if [ ! -s check_metadata_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
 		echo "No errors"
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
-		cat check_metadata_quality.txt
-		value=$(<check_metadata_quality.txt)
+		cat $WORKSPACE/log/check_metadata_quality.txt
+		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
 		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
@@ -126,7 +119,7 @@ msg "4. Acceptance testing : "
 	do
 	  node_file=$(basename $entry)
 	  filename="${node_file%.*}"
-	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' ${filename}.txt`
+	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/${filename}.txt`
 	  echo "${filename}---------------${final_result}"
 	  PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td>${final_result}</td></tr>"
 	done
@@ -134,6 +127,7 @@ msg "4. Acceptance testing : "
 
 }
 
+mkdir $WORKSPACE/log
 
 check_syntax_errors
 check_code_quality

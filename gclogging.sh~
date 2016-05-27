@@ -29,7 +29,7 @@ echo " "
 function check_syntax_errors(){	
 heading "[Starting] check syntax errors using puppet parser"
 
-	check_syntax_errors=`echo puppet parser validate manifests/*.pp`
+	check_syntax_errors=`echo puppet parser validate $WORKSPACE/manifests/*.pp`
 	$check_syntax_errors>check_syntax_errors.txt
 	cat check_syntax_errors.txt
 
@@ -39,7 +39,7 @@ heading "[Starting] check syntax errors using puppet parser"
 function check_code_quality(){
 heading "[Starting] code quality check using puppet-lint tool"
 
-	check_code_quality=`echo puppet-lint $WORKSPACE`
+	check_code_quality=`echo puppet-lint $WORKSPACE/project`
 	$check_code_quality>check_code_quality.txt
 	cat check_code_quality.txt
 	if [ ! -s check_code_quality.txt ]; then
@@ -52,7 +52,7 @@ heading "[Starting] code quality check using puppet-lint tool"
 function check_metadata_quality(){
 heading "[Starting] Metadata quality check using metadata-json-lint tool"
 
-	check_metadata_quality=`echo metadata-json-lint metadata.json`
+	check_metadata_quality=`echo metadata-json-lint $WORKSPACE/project/metadata.json`
 	$check_metadata_quality>check_metadata_quality.txt
 	cat check_metadata_quality.txt	
 	if [ ! -s check_metadata_quality.txt ]; then
@@ -63,18 +63,19 @@ heading "[Starting] Metadata quality check using metadata-json-lint tool"
 
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Beaker-rspec"
-	
-	sudo bundle install 	
-	sed --in-place '/log_level: verbose/d' "$WORKSPACE/spec/acceptance/nodesets/"*.yml
-	for entry in "$WORKSPACE/spec/acceptance/nodesets"/*
-	do
-	  node_file=$(basename $entry)
-	  filename="${node_file%.*}"
-	  msg "OS: $filename"  	
-	  result=`echo sudo BEAKER_set="${filename}" bundle exec rspec spec/acceptance`
-	  $result>${filename}.txt
-	  cat ${filename}.txt
-	done
+	pushd $WORKSPACE/project
+		sudo bundle install 	
+		sed --in-place '/log_level: verbose/d' "$WORKSPACE/project/spec/acceptance/nodesets/"*.yml
+		for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
+		do
+		  node_file=$(basename $entry)
+		  filename="${node_file%.*}"
+		  msg "OS: $filename"  	
+		  result=`echo sudo BEAKER_set="${filename}" bundle exec rspec spec/acceptance`
+		  $result>${filename}.txt
+		  cat ${filename}.txt
+		done
+	popd
 }
 
 function result(){
@@ -121,7 +122,7 @@ msg "3. Check metadata quality : "
 
 msg "4. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
-	for entry in "$WORKSPACE/spec/acceptance/nodesets"/*
+	for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
 	do
 	  node_file=$(basename $entry)
 	  filename="${node_file%.*}"
@@ -133,17 +134,16 @@ msg "4. Acceptance testing : "
 
 }
 
-pushd project
+mkdir $WORKSPACE/log
 
-	check_syntax_errors
-	check_code_quality
-	check_metadata_quality
-	acceptance_testing
-	result
+check_syntax_errors
+check_code_quality
+check_metadata_quality
+acceptance_testing
+result
 
-	eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
+eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
 
-popd
 
 
 
