@@ -145,7 +145,7 @@ msg "5. Resource Coverage"
 	
 	cat $WORKSPACE/log/resouce_coverage.txt
 	value=$(<$WORKSPACE/log/resouce_coverage.txt)
-	PUPPET_META_DATA_CHEK_MAIL="${value}"
+	PUPPET_META_DATA_CHEK_MAIL=${value}
 
 msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
