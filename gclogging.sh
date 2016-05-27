@@ -29,7 +29,7 @@ echo " "
 function check_syntax_errors(){	
 heading "[Starting] check syntax errors using puppet parser"
 
-	check_syntax_errors=`echo puppet parser validate $WORKSPACE/project/manifests/*.pp`
+	check_syntax_errors=`echo puppet parser validate $WORKSPACE/project/manifests/*.pp 1>&2`
 	$check_syntax_errors>$WORKSPACE/log/check_syntax_errors.txt
 	cat $WORKSPACE/log/check_syntax_errors.txt
 
@@ -65,8 +65,8 @@ heading "[Starting] Acceptance Testing using Beaker-rspec"
 		  filename="${node_file%.*}"
 		  msg "OS: $filename"  	
 		  result=`echo sudo BEAKER_set="${filename}" bundle exec rspec spec/acceptance`
-		  $result>$WORKSPACE/log/${filename}.txt
-		  cat $WORKSPACE/log/${filename}.txt
+		  $result>$WORKSPACE/log/acceptance/${filename}.txt
+		  cat $WORKSPACE/log/acceptance/${filename}.txt
 		done
 	popd
 }
@@ -103,12 +103,12 @@ msg "2. Check code quality : "
 msg "3. Check metadata quality : "
 
 	
-	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/acceptance/check_metadata_quality.txt ]; then
 		echo "No errors"
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
 		cat $WORKSPACE/log/check_metadata_quality.txt
-		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
+		value=$(<$WORKSPACE/log/acceptance/check_metadata_quality.txt)
 		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
@@ -119,16 +119,28 @@ msg "4. Acceptance testing : "
 	do
 	  node_file=$(basename $entry)
 	  filename="${node_file%.*}"
-	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/${filename}.txt`
+	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
 	  echo "${filename}---------------${final_result}"
-	  PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td>${final_result}</td></tr>"
+	  if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
+    		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='success'>${final_result}</span></td></tr>"
+	  else
+    		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='error'>${final_result}</span></td></tr>"
+	  fi	  
+	
 	done
 	echo $PUPPET_ACCEPTANCE_TESTING_MAIL
 
 }
 
-mkdir $WORKSPACE/log
+function init(){
 
+mkdir $WORKSPACE/log
+mkdir $WORKSPACE/log/acceptance
+MAIL_JOB_URL=$BUILD_JOB/$BUILD_NUMBER/console
+
+}
+
+init
 check_syntax_errors
 check_code_quality
 check_metadata_quality
