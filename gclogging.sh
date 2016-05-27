@@ -1,5 +1,7 @@
 #!/bin/bash
- 
+
+acceptance_testing=""
+
 function heading(){
 message=$1
 echo " "
@@ -61,7 +63,7 @@ heading "[Starting] Metadata quality check using metadata-json-lint tool"
 
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Beaker-rspec"
-acceptance_testing=""	
+	
 	sudo bundle install 	
 	sed --in-place '/log_level: verbose/d' "$WORKSPACE/spec/acceptance/nodesets/"*.yml
 	for entry in "$WORKSPACE/spec/acceptance/nodesets"/*
@@ -72,9 +74,6 @@ acceptance_testing=""
 	  result=`echo sudo BEAKER_set="${filename}" bundle exec rspec spec/acceptance`
 	  $result>${filename}.txt
 	  cat ${filename}.txt
-	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' ${filename}.txt`
-	  echo $final_result
-	  acceptance_testing="${acceptance_testing}${filename}      ${final_result}\n"
 	done
 }
 
@@ -85,8 +84,12 @@ msg "1. Syntax errors : "
 	
 	if [ ! -s check_syntax_errors.txt ]; then
 		echo "No syntax errors"
+		PUPPET_COMPATIBILTY_CHEK_MAIL="<span class='success'>No syntax errors</span>"
 	else
 		cat check_syntax_errors.txt
+		value=$(<check_syntax_errors.txt)
+		PUPPET_COMPATIBILTY_CHEK_MAIL="<span class='error'>${value}</span>"
+		
 	fi
 
 
@@ -95,8 +98,11 @@ msg "2. Check code quality : "
 		
 	if [ ! -s check_code_quality.txt ]; then
 		echo "No errors"
+		PUPPET_CODE_QUALITY_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
 		cat check_code_quality.txt
+		value=$(<check_code_quality.txt)
+		PUPPET_CODE_QUALITY_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
 
@@ -105,14 +111,25 @@ msg "3. Check metadata quality : "
 	
 	if [ ! -s check_metadata_quality.txt ]; then
 		echo "No errors"
+		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
 		cat check_metadata_quality.txt
+		value=$(<check_metadata_quality.txt)
+		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
 
 msg "4. Acceptance testing : "
-
-	printf $acceptance_testing
+	PUPPET_ACCEPTANCE_TESTING_MAIL=""
+	for entry in "$WORKSPACE/spec/acceptance/nodesets"/*
+	do
+	  node_file=$(basename $entry)
+	  filename="${node_file%.*}"
+	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' ${filename}.txt`
+	  echo "${filename}---------------${final_result}"
+	  PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td>${final_result}</td></tr>"
+	done
+	echo $PUPPET_ACCEPTANCE_TESTING_MAIL
 
 }
 
@@ -122,6 +139,7 @@ check_metadata_quality
 acceptance_testing
 result
 
+eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
 
 
 

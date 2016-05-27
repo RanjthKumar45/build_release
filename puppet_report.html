@@ -1,0 +1,63 @@
+<html>
+<style>
+body
+	{font-family:calibri;
+	font-size:15px}
+table
+	{border-collapse:collapse}
+th
+	{border:1px solid #000000;
+	background-color:#548dd4;
+	color:#fff;
+	text-align:left;
+	padding:3px 7px 2px}
+td
+	{border:1px solid #000000;
+	text-align:left;
+	padding:3px 7px 2px}
+
+.success
+	{color:green}
+
+.error
+	{color:red}
+
+</style>
+<body>
+<p>Hi Team,<br>
+<br>
+
+Following are test report for puppet module : </p><br/>
+
+<table>
+<tr><th>Puppet Compatibility (Syntax errors) Check Using "puppet parser" Tool</th></tr>
+<tr><td>${PUPPET_COMPATIBILTY_CHEK_MAIL}</td></tr>
+</table>
+<br/>
+
+<table>
+<tr><th>Code Quality Check Using "puppet-lint" Tool</th></tr>
+<tr><td>${PUPPET_CODE_QUALITY_CHEK_MAIL}</td></tr>
+</table>
+<br/>
+
+<table>
+<tr><th>Metadata Quality Check Using "metadata-json-lint" Tool</th></tr>
+<tr><td>${PUPPET_META_DATA_CHEK_MAIL}</td></tr>
+</table>
+<br/>
+
+<table>
+<tr><th>Acceptance Testing Using "beaker-rspec" Tool</th></tr>
+${PUPPET_ACCEPTANCE_TESTING_MAIL}
+</table>
+<br/>
+
+<strong><i>For Detailed report: </i></strong> <a href='${MAIL_JOB_URL}'>${MAIL_JOB_URL}</a><br/>
+<br/>
+<i>Note:This is an Auto Generated Mail triggered from Jenkins Job</i>
+<br/><br/>
+Thanks<br />
+</div>
+</body>
+</html>
