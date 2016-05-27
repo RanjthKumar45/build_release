@@ -128,8 +128,6 @@ msg "4. Acceptance testing : "
 	  fi	  
 	
 	done
-	echo $PUPPET_ACCEPTANCE_TESTING_MAIL
-
 }
 
 function init(){

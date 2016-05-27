@@ -135,6 +135,7 @@ function init(){
 mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
 MAIL_JOB_URL=$BUILD_JOB/$BUILD_NUMBER/console
+MAIL_JOB_NAME=$JOB_NAME
 
 }
 
