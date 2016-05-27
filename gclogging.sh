@@ -134,7 +134,7 @@ function init(){
 
 mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
-MAIL_JOB_URL=http://104.197.41.96:8080/job/$JOB_NAME/console
+MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/console"
 MAIL_JOB_NAME=$JOB_NAME
 
 }
