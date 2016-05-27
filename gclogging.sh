@@ -81,7 +81,7 @@ heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
 		#This for just report purpose	
-		resouce_coverage=`echo sed -n '/Total resources/,$p' $WORKSPACE/log/unit_testing_resource_coverage.txt`
+		resouce_coverage=`echo rspec $WORKSPACE/project/spec/classes/*_spec.rb`
 		$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
 	popd
 }
