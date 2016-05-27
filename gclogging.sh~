@@ -133,17 +133,13 @@ msg "4. Acceptance testing : "
 
 }
 
-pushd project
+check_syntax_errors
+check_code_quality
+check_metadata_quality
+acceptance_testing
+result
 
-	check_syntax_errors
-	check_code_quality
-	check_metadata_quality
-	acceptance_testing
-	result
-
-	eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
-
-popd
+eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/puppet_report.html
 
 
 
