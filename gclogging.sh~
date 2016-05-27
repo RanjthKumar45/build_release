@@ -81,7 +81,7 @@ heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
 		#This for just report purpose	
-		resouce_coverage=`echo sed -n '/Total resources/,$p' $WORKSPACE/log/unit_testing_resource_coverage.txt`
+		resouce_coverage=`echo rspec $WORKSPACE/project/spec/classes/*_spec.rb`
 		$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
 	popd
 }
@@ -146,7 +146,7 @@ msg "5. Resource Coverage"
 	
 	cat $WORKSPACE/log/resouce_coverage.txt
 	value=$(<$WORKSPACE/log/resouce_coverage.txt)
-	PUPPET_META_DATA_CHEK_MAIL=${value}
+	PUPPET_RESOURCE_COVERAGE_MAIL=${value}
 
 msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""

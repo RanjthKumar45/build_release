@@ -145,8 +145,7 @@ msg "5. Resource Coverage"
 	sed --in-place '/^[0-9]+ examples, [0-9]+ failures/d' $WORKSPACE/log/resouce_coverage.txt
 	
 	cat $WORKSPACE/log/resouce_coverage.txt
-	value=$(<$WORKSPACE/log/resouce_coverage.txt)
-	PUPPET_META_DATA_CHEK_MAIL=${value}
+	PUPPET_RESOURCE_COVERAGE_MAIL=$(<$WORKSPACE/log/resouce_coverage.txt)
 
 msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
