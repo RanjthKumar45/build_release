@@ -122,9 +122,9 @@ msg "4. Acceptance testing : "
 	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
 	  echo "${filename}---------------${final_result}"
 	  if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
-    		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='success'>${final_result}</span></td></tr>"
-	  else
     		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='error'>${final_result}</span></td></tr>"
+	  else
+    		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='success'>${final_result}</span></td></tr>"
 	  fi	  
 	
 	done
@@ -134,7 +134,7 @@ function init(){
 
 mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
-MAIL_JOB_URL=$BUILD_URL/console
+MAIL_JOB_URL=http://104.197.41.96:8080/job/$JOB_NAME/console
 MAIL_JOB_NAME=$JOB_NAME
 
 }
