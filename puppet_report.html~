@@ -24,7 +24,8 @@ td
 
 </style>
 <body>
-Following are test report for puppet module : ${MAIL_JOB_NAME} </p><br/>
+<br/>
+<h2>Test Report For Puppet Module : ${MAIL_JOB_NAME} <h2></p><br/>
 
 <table>
 <tr><th align="left">Puppet Compatibility (Syntax errors) Check Using "puppet parser" Tool</th></tr>
@@ -47,7 +48,7 @@ Following are test report for puppet module : ${MAIL_JOB_NAME} </p><br/>
 <table>
 <tr><th colspan="2" align="left">Unit Testing Using "rspec-puppet" Tool</th></tr>
 <tr><td>Test Result</td><td>${PUPPET_UNIT_TEST_RESULT_MAIL}</td></tr>
-<tr><td>Resource Coverage</td><td>${PUPPET_META_DATA_CHEK_MAIL}</td></tr>
+<tr><td>Resource Coverage</td><td>${PUPPET_RESOURCE_COVERAGE_MAIL}</td></tr>
 </table>
 <br/>
 
@@ -57,7 +58,7 @@ ${PUPPET_ACCEPTANCE_TESTING_MAIL}
 </table>
 <br/>
 
-<strong><i>For Detailed report: </i></strong> <a href='${MAIL_JOB_URL}'>${MAIL_JOB_URL}</a><br/>
+<strong><i>For Detailed Report: </i></strong> <a href='${MAIL_JOB_URL}'>${MAIL_JOB_URL}</a><br/>
 <br/>
 </div>
 </body>
