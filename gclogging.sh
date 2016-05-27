@@ -75,14 +75,15 @@ heading "[Starting] Acceptance Testing using Beaker-rspec"
 function unit_testing_resource_coverage(){
 
 heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
+	pushd $WORKSPACE/project
+		unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/classes/*_spec.rb`
+		$unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
+		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
-	unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/classes/*_spec.rb`
-	$unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
-	cat $WORKSPACE/log/unit_testing_resource_coverage.txt
-
-	#This for just report purpose	
-	resouce_coverage=`echo sed -n '/Total resources/,$p' $WORKSPACE/log/unit_testing_resource_coverage.txt`
-	$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
+		#This for just report purpose	
+		resouce_coverage=`echo sed -n '/Total resources/,$p' $WORKSPACE/log/unit_testing_resource_coverage.txt`
+		$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
+	popd
 }
 
 
