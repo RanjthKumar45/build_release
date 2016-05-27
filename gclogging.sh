@@ -108,7 +108,7 @@ msg "3. Check metadata quality : "
 		PUPPET_META_DATA_CHEK_MAIL="<span class='success'>No errors</span>"
 	else
 		cat $WORKSPACE/log/check_metadata_quality.txt
-		value=$(<$WORKSPACE/log/acceptance/check_metadata_quality.txt)
+		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
 		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
