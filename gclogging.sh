@@ -182,7 +182,7 @@ check_syntax_errors
 check_code_quality
 check_metadata_quality
 unit_testing_resource_coverage
-#acceptance_testing
+acceptance_testing
 result
 
 eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html
