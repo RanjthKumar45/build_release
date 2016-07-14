@@ -56,8 +56,7 @@ heading "[Starting] Metadata quality check using metadata-json-lint tool"
 
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Beaker-rspec"
-	pushd $WORKSPACE/project
-		sudo bundle install 	
+	pushd $WORKSPACE/project	
 		sed --in-place '/log_level: verbose/d' "$WORKSPACE/project/spec/acceptance/nodesets/"*.yml
 		for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
 		do
@@ -172,8 +171,12 @@ mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
 mkdir $WORKSPACE/report
 
-MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/$BUILD_NUMBER/console"
-MAIL_JOB_NAME=$JOB_NAME
+#MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/$BUILD_NUMBER/console"
+#MAIL_JOB_NAME=$JOB_NAME
+
+pushd $WORKSPACE/project
+	sudo bundle install 
+popd 
 
 }
 
@@ -182,7 +185,7 @@ check_syntax_errors
 check_code_quality
 check_metadata_quality
 unit_testing_resource_coverage
-acceptance_testing
+#acceptance_testing
 result
 
 eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html
