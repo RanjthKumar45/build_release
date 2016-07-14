@@ -142,6 +142,7 @@ msg "5. Resource Coverage"
 
 	value=$(grep -oP '\(\K[^\)]+' $WORKSPACE/log/unit_testing_resource_coverage.txt | tail -1)
 	PUPPET_RESOURCE_COVERAGE_MAIL=${value}
+	echo $value
 
 msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
