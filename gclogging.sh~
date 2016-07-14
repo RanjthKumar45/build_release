@@ -75,7 +75,7 @@ function unit_testing_resource_coverage(){
 
 heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 	pushd $WORKSPACE/project
-		unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/classes/*_spec.rb`
+		unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/unit/*_spec.rb`
 		$unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
 		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
@@ -185,7 +185,7 @@ check_syntax_errors
 check_code_quality
 check_metadata_quality
 unit_testing_resource_coverage
-acceptance_testing
+#acceptance_testing
 result
 
 eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html

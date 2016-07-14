@@ -75,7 +75,7 @@ function unit_testing_resource_coverage(){
 
 heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 	pushd $WORKSPACE/project
-		unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/classes/*_spec.rb`
+		unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/project/spec/unit/*_spec.rb`
 		$unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
 		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
