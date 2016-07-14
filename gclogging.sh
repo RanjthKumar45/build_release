@@ -80,8 +80,8 @@ heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 		cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
 		#This for just report purpose	
-		resouce_coverage=`echo rspec $WORKSPACE/project/spec/unit/*_spec.rb`
-		$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
+	#	resouce_coverage=`echo rspec $WORKSPACE/project/spec/unit/*_spec.rb`
+		#$resouce_coverage>$WORKSPACE/log/resouce_coverage.txt
 	popd
 }
 
@@ -129,7 +129,7 @@ msg "3. Check metadata quality : "
 
 msg "4. Unit Testing"
 	
-	unit_testing=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/resouce_coverage.txt`
+	unit_testing=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/unit_testing_resource_coverage.txt`
 	echo $unit_testing
 
 	if [[ "$unit_testing" =~ "^[0-9]+ examples, 0 failures" ]]; then
@@ -140,12 +140,7 @@ msg "4. Unit Testing"
 
 msg "5. Resource Coverage"
 
-	sed --in-place '/^Finished*/d' $WORKSPACE/log/resouce_coverage.txt
-	sed --in-place '/^[0-9]+ examples, [0-9]+ failures/d' $WORKSPACE/log/resouce_coverage.txt
-	
-	cat $WORKSPACE/log/resouce_coverage.txt
-	sed -i 's/$/<br>/' $WORKSPACE/log/resouce_coverage.txt	
-	value=$(<$WORKSPACE/log/resouce_coverage.txt)
+	value=$(grep -oP '\(\K[^\)]+' $WORKSPACE/log/unit_testing_resource_coverage.txt | tail -1)
 	PUPPET_RESOURCE_COVERAGE_MAIL=${value}
 
 msg "6. Acceptance testing : "
