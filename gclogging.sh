@@ -188,7 +188,10 @@ unit_testing_resource_coverage
 #acceptance_testing
 result
 
-eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html
+pushd $WORKSPACE/scripts
+	eval "echo \"$(< puppet_report.html)\"" > $WORKSPACE/report/puppet_report.html
+popd
+
 
 
 
