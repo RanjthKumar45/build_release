@@ -29,7 +29,7 @@ echo " "
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Beaker-rspec"
         pushd $WORKSPACE/cookbook
-                  result=`echo sudo kitchen test $WORKSPACE/cookbook`
+                  result=`echo sudo kitchen test $WORKSPACE/cookbook/spec/*_spec.rb`
                   $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
                   cat $WORKSPACE/log/acceptance/acceptance_testing.txt
         popd
@@ -40,7 +40,7 @@ function unit_testing_resource_coverage(){
 
 heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
         pushd $WORKSPACE/cookbook
-                unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/cookbook`
+                unit_testing_resource_coverage=`echo rspec --format documentation $WORKSPACE/cookbook/spec/*_spec.rb`
                 $unit_testing_resource_coverage>$WORKSPACE/log/unit_testing_resource_coverage.txt
                 cat $WORKSPACE/log/unit_testing_resource_coverage.txt
 
