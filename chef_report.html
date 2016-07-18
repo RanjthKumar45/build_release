@@ -1,0 +1,45 @@
+<html>
+<style>
+body
+	{font-family:calibri;
+	font-size:15px}
+table
+	{border-collapse:collapse}
+th
+	{border:1px solid #000000;
+	background-color:#548dd4;
+	color:#fff;
+	text-align:left;
+	padding:3px 7px 2px}
+td
+	{border:1px solid #000000;
+	text-align:left;
+	padding:3px 7px 2px}
+.success
+	{color:green}
+.error
+	{color:red}
+</style>
+<body>
+<br/>
+<h2>Test Report For Chef Module : ${MAIL_JOB_NAME} </h2></p><br/>
+
+<table>
+<tr><th colspan="2" align="left">Unit Testing Using rspec Tool</th></tr>
+<tr><td valign="top">Test Result</td><td>${PUPPET_UNIT_TEST_RESULT_MAIL}</td></tr>
+<tr><td valign="top">Resource Coverage</td><td>${PUPPET_RESOURCE_COVERAGE_MAIL}</td></tr>
+<tr><td valign="top">Time Taken</td><td>${PUPPET_UNIT_TEST_TIME_TAKEN}</td></tr>
+</table>
+<br/>
+
+<table>
+<tr><th colspan="3" align="left">Acceptance Testing Using "test-kitchen" Tool</th></tr>
+${PUPPET_ACCEPTANCE_TESTING_MAIL}
+</table>
+<br/>
+
+<strong><i>For Detailed Report: </i></strong> <a href='${MAIL_JOB_URL}'>${MAIL_JOB_URL}</a><br/>
+<br/>
+</div>
+</body>
+</html>
