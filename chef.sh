@@ -29,7 +29,7 @@ echo " "
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Beaker-rspec"
         pushd $WORKSPACE/cookbook
-                  result=`echo sudo kitchen test $WORKSPACE/cookbook/spec/*_spec.rb`
+                  result=`echo sudo kitchen test $WORKSPACE/cookbook/*.yml`
                   $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
                   cat $WORKSPACE/log/acceptance/acceptance_testing.txt
         popd
