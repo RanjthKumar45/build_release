@@ -94,7 +94,7 @@ mkdir $WORKSPACE/report
 #MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/$BUILD_NUMBER/console"
 #MAIL_JOB_NAME=$JOB_NAME
 
-pushd $WORKSPACE/project
+pushd $WORKSPACE/cookbook
         sudo bundle install
 popd
 
