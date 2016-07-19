@@ -39,10 +39,17 @@ heading "[Starting] Syntax and code quality check using foodcritic tool"
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Test Kitchenc"
         pushd $WORKSPACE/cookbook
+        for entry in "$WORKSPACE/cookbook/nodesets"/*
+		do
+		sudo cat $WORKSPACE/cookbook/nodesets/$entry > $WORKSPACE/cookbook/.kitchen.yml
+		 node_file=$(basename $entry)
+		  filename="${node_file%.*}"
+		  msg "OS: $filename"
                   result=`echo sudo kitchen test -l=debug`
                   $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
-                  sudo sed -i 's/\(\[32m\|\[0m\)//g' $WORKSPACE/log/acceptance/acceptance_testing.txt
-                  cat $WORKSPACE/log/acceptance/acceptance_testing.txt
+                  sudo sed -i 's/\(\[32m\|\[0m\)//g' $WORKSPACE/log/acceptance/${filename}.txt
+                  cat $WORKSPACE/log/acceptance/${filename}.txt
+                 done
         popd
 }
 
@@ -99,14 +106,19 @@ msg "3. Resource Coverage"
 
 msg "4. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
-          final_result=`grep --text -P '[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/acceptance_testing.txt`
+        for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
+	do
+	  node_file=$(basename $entry)
+	  filename="${node_file%.*}"
+          final_result=`grep --text -P '[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
           echo "${filename}---------------${final_result}"
-          time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/acceptance_testing.txt`
+          time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/${filename}.txt`
           if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
                 PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
           else
                 PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='success'>${final_result}</span></td><td>${time_taken}</td></tr>"
           fi
+        done
 
 }
 
