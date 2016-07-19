@@ -46,7 +46,7 @@ heading "[Starting] Acceptance Testing using Test Kitchenc"
 		  filename="${node_file%.*}"
 		  msg "OS: $filename"
                   result=`echo sudo kitchen test -l=debug`
-                  $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
+                  $result>$WORKSPACE/log/acceptance/${filename}.txt
                   sudo sed -i 's/\(\[32m\|\[0m\)//g' $WORKSPACE/log/acceptance/${filename}.txt
                   cat $WORKSPACE/log/acceptance/${filename}.txt
                  done
