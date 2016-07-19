@@ -41,7 +41,7 @@ heading "[Starting] Acceptance Testing using Test Kitchenc"
         pushd $WORKSPACE/cookbook
         for entry in "$WORKSPACE/cookbook/nodesets"/*
 		do
-		sudo cat $WORKSPACE/cookbook/nodesets/$entry > $WORKSPACE/cookbook/.kitchen.yml
+		sudo cat $entry > $WORKSPACE/cookbook/.kitchen.yml
 		 node_file=$(basename $entry)
 		  filename="${node_file%.*}"
 		  msg "OS: $filename"
