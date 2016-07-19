@@ -26,6 +26,16 @@ echo "[${message}]"
 echo " "
 }
 
+
+function check_syntax_quality(){
+heading "[Starting] Syntax and code quality check using foodcritic tool"
+
+	check_syntax_quality=`echo foodcritic $WORKSPACE/cookbook`
+	$check_syntax_quality>$WORKSPACE/log/check_syntax_quality.txt
+	cat $WORKSPACE/log/check_syntax_quality.txt	
+}
+
+
 function acceptance_testing(){
 heading "[Starting] Acceptance Testing using Test Kitchenc"
         pushd $WORKSPACE/cookbook
@@ -55,7 +65,21 @@ heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 function result(){
 heading "Result"
 
-msg "4. Unit Testing"
+
+msg "1. Check metadata quality : "
+
+	
+	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
+		echo "No errors"
+		CHEF_SYNTAX_QUALITY="<span class='success'>No errors</span>"
+	else
+		cat $WORKSPACE/log/check_metadata_quality.txt
+		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
+		CHEF_SYNTAX_QUALITY="<span class='error'>${value}</span>"
+	fi
+	
+
+msg "2. Unit Testing"
 
         unit_testing=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/unit_testing_resource_coverage.txt`
         echo $unit_testing
@@ -67,13 +91,13 @@ msg "4. Unit Testing"
                 PUPPET_UNIT_TEST_RESULT_MAIL="<span class='success'>${unit_testing}</span>"
         fi
 
-msg "5. Resource Coverage"
+msg "3. Resource Coverage"
 
         value=$(grep -oP '\(\K[^\)]+' $WORKSPACE/log/unit_testing_resource_coverage.txt | tail -1)
         PUPPET_RESOURCE_COVERAGE_MAIL=${value}
         echo $value
 
-msg "6. Acceptance testing : "
+msg "4. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
           final_result=`grep --text -P '[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/acceptance_testing.txt`
           echo "${filename}---------------${final_result}"
@@ -92,8 +116,8 @@ mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
 mkdir $WORKSPACE/report
 
-#MAIL_JOB_URL="http://104.197.114.129/:8080/job/$JOB_NAME/$BUILD_NUMBER/console"
-#MAIL_JOB_NAME=$JOB_NAME
+MAIL_JOB_URL="http://104.196.46.29:8080/job/chef-google_cloud_dns/HTML_Report/"
+MAIL_JOB_NAME=$JOB_NAME
 
 pushd $WORKSPACE/cookbook
         sudo bundle install
@@ -102,9 +126,7 @@ popd
 }
 
 init
-#check_syntax_errors
-#check_code_quality
-#check_metadata_quality
+check_syntax_quality
 unit_testing_resource_coverage
 acceptance_testing
 result
