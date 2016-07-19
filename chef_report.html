@@ -25,6 +25,13 @@ td
 <h2>Test Report For Chef Module : ${MAIL_JOB_NAME} </h2></p><br/>
 
 <table>
+<tr><th align="left">Syntax and code quality check using foodcritic tool</th></tr>
+<tr><td>${CHEF_SYNTAX_QUALITY}</td></tr>
+</table>
+<br/>
+
+
+<table>
 <tr><th colspan="2" align="left">Unit Testing Using rspec Tool</th></tr>
 <tr><td valign="top">Test Result</td><td>${PUPPET_UNIT_TEST_RESULT_MAIL}</td></tr>
 <tr><td valign="top">Resource Coverage</td><td>${PUPPET_RESOURCE_COVERAGE_MAIL}</td></tr>
@@ -33,7 +40,8 @@ td
 <br/>
 
 <table>
-<tr><th colspan="3" align="left">Acceptance Testing Using "test-kitchen" Tool</th></tr>
+<tr><th colspan="3" align="centre">Acceptance Testing Using "test-kitchen" Tool</th></tr>
+<tr><td bgcolor=#548dd4 color=#fff >OS 1</td><td bgcolor=#548dd4 color=#fff>Test Result</td><td bgcolor=#548dd4 color=#fff>Time Taken</td></tr>
 ${PUPPET_ACCEPTANCE_TESTING_MAIL}
 </table>
 <br/>
