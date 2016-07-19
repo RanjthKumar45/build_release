@@ -61,9 +61,9 @@ msg "4. Unit Testing"
         PUPPET_UNIT_TEST_TIME_TAKEN=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/unit_testing_resource_coverage.txt`
 
         if [[ "$unit_testing" =~ "^[0-9]+ examples, 0 failures" ]]; then
-                PUPPET_UNIT_TEST_RESULT_MAIL="<span class='error'>${unit_testing}</span>"
-        else
                 PUPPET_UNIT_TEST_RESULT_MAIL="<span class='success'>${unit_testing}</span>"
+        else
+                PUPPET_UNIT_TEST_RESULT_MAIL="<span class='error'>${unit_testing}</span>"
         fi
 
 msg "5. Resource Coverage"
@@ -75,12 +75,12 @@ msg "5. Resource Coverage"
 msg "6. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
           final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/acceptance_testing.txt`
-          echo "${filename}---------------${final_result}"
+          #echo "${filename}---------------${final_result}"
           time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/acceptance_testing.txt`
           if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
-                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
-          else
                 PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='success'>${final_result}</span></td><td>${time_taken}</td></tr>"
+          else
+                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
           fi
 
 }
