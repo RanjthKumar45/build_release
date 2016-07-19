@@ -27,9 +27,9 @@ echo " "
 }
 
 function acceptance_testing(){
-heading "[Starting] Acceptance Testing using Beaker-rspec"
+heading "[Starting] Acceptance Testing using Test Kitchenc"
         pushd $WORKSPACE/cookbook
-                  result=`echo sudo kitchen test`
+                  result=`echo sudo kitchen test -l=debug`
                   $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
                   cat $WORKSPACE/log/acceptance/acceptance_testing.txt
         popd
@@ -75,7 +75,7 @@ msg "5. Resource Coverage"
 msg "6. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
           final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/acceptance_testing.txt`
-          #echo "${filename}---------------${final_result}"
+          echo "${filename}---------------${final_result}"
           time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/acceptance_testing.txt`
           if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
                 PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='success'>${final_result}</span></td><td>${time_taken}</td></tr>"
