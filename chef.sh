@@ -31,6 +31,7 @@ heading "[Starting] Acceptance Testing using Test Kitchenc"
         pushd $WORKSPACE/cookbook
                   result=`echo sudo kitchen test -l=debug`
                   $result>$WORKSPACE/log/acceptance/acceptance_testing.txt
+                  sudo sed -i 's/\(\[32m\|\[0m\)//g' $WORKSPACE/log/acceptance/acceptance_testing.txt
                   cat $WORKSPACE/log/acceptance/acceptance_testing.txt
         popd
 }
