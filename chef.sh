@@ -105,7 +105,7 @@ init
 #check_code_quality
 #check_metadata_quality
 unit_testing_resource_coverage
-#acceptance_testing
+acceptance_testing
 result
 
 pushd $WORKSPACE/scripts
