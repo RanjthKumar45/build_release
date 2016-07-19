@@ -69,12 +69,12 @@ heading "Result"
 msg "1. Check metadata quality : "
 
 	
-	if [ ! -s $WORKSPACE/log/check_metadata_quality.txt ]; then
+	if [ ! -s $WORKSPACE/log/check_syntax_quality.txt ]; then
 		echo "No errors"
 		CHEF_SYNTAX_QUALITY="<span class='success'>No errors</span>"
 	else
-		cat $WORKSPACE/log/check_metadata_quality.txt
-		value=$(<$WORKSPACE/log/check_metadata_quality.txt)
+		cat $WORKSPACE/log/check_syntax_quality.txt
+		value=$(<$WORKSPACE/log/check_syntax_quality.txt)
 		CHEF_SYNTAX_QUALITY="<span class='error'>${value}</span>"
 	fi
 	
