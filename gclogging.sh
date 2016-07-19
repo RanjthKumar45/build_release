@@ -153,7 +153,7 @@ msg "6. Acceptance testing : "
 	  filename="${node_file%.*}"
 	  final_result=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
 	  echo "${filename}---------------${final_result}"
-	  time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/unit_testing_resource_coverage.txt`
+	  time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/${filename}.txt`
 	  if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
     		PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
 	  else
