@@ -184,8 +184,6 @@ check_code_quality
 check_metadata_quality
 if $Unit_Testing then
 unit_testing_resource_coverage
-else
-fi
 #acceptance_testing
 result
 
