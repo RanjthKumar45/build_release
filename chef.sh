@@ -108,8 +108,7 @@ msg "4. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
         for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
 	do
-	  node_file=$(basename $entry)
-	  filename="${node_file%.*}"
+	  filename=$(basename -s $entry)
           final_result=`grep --text -P '[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
           echo "${filename}---------------${final_result}"
           time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/${filename}.txt`
