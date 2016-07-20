@@ -182,8 +182,9 @@ init
 check_syntax_errors
 check_code_quality
 check_metadata_quality
-if $Unit_Testing then
+if [ "$Unit_Testing = true" ]; then
 unit_testing_resource_coverage
+fi
 #acceptance_testing
 result
 
