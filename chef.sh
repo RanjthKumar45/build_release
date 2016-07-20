@@ -106,9 +106,9 @@ msg "3. Resource Coverage"
 
 msg "4. Acceptance testing : "
         PUPPET_ACCEPTANCE_TESTING_MAIL=""
-        for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
+        for entry in "$WORKSPACE/cookbook/nodesets"/*
 	do
-	  filename=$(basename -s $entry)
+	  filename=$(basename -s .yml $entry)
           final_result=`grep --text -P '[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/acceptance/${filename}.txt`
           echo "${filename}---------------${final_result}"
           time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/${filename}.txt`
