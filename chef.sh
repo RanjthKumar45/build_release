@@ -114,9 +114,9 @@ msg "4. Acceptance testing : "
           echo "${filename}---------------${final_result}"
           time_taken=`grep -oP '\Finished in\K[^\(f]+' $WORKSPACE/log/acceptance/${filename}.txt`
           if [[ "$final_result" =~ "^[0-9]+ examples, 0 failures" ]]; then
-                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
+                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='error'>${final_result}</span></td><td>${time_taken}</td></tr>"
           else
-                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>acceptance_testing.txt</td><td><span class='success'>${final_result}</span></td><td>${time_taken}</td></tr>"
+                PUPPET_ACCEPTANCE_TESTING_MAIL="${PUPPET_ACCEPTANCE_TESTING_MAIL}<tr><td>${filename}</td><td><span class='success'>${final_result}</span></td><td>${time_taken}</td></tr>"
           fi
         done
 
