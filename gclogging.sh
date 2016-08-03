@@ -104,7 +104,6 @@ msg "1. Syntax errors : "
 
 msg "2. Check code quality : "
 	
-		
 	if [ ! -s $WORKSPACE/log/check_code_quality.txt ]; then
 		echo "No errors"
 		PUPPET_CODE_QUALITY_CHEK_MAIL="<span class='success'>No errors</span>"
