@@ -71,7 +71,6 @@ heading "[Starting] Unit Testing and Code Coverage Using rspec-puppet tool"
 function result(){
 heading "Result"
 
-
 msg "1. Check metadata quality : "
 
 	
