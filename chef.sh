@@ -26,6 +26,7 @@ echo "[${message}]"
 echo " "
 }
 
+
 function check_syntax_quality(){
 heading "[Starting] Syntax and code quality check using foodcritic tool"
 
