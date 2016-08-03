@@ -144,6 +144,7 @@ msg "5. Resource Coverage"
 	PUPPET_RESOURCE_COVERAGE_MAIL=${value}
 	echo $value
 
+
 msg "6. Acceptance testing : "
 	PUPPET_ACCEPTANCE_TESTING_MAIL=""
 	for entry in "$WORKSPACE/project/spec/acceptance/nodesets"/*
