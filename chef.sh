@@ -127,7 +127,6 @@ mkdir $WORKSPACE/log
 mkdir $WORKSPACE/log/acceptance
 mkdir $WORKSPACE/report
 
-
 MAIL_JOB_URL="http://104.196.46.29:8080/job/chef-google_cloud_dns/HTML_Report/"
 MAIL_JOB_NAME=$JOB_NAME
 
