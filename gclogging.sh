@@ -125,6 +125,7 @@ msg "3. Check metadata quality : "
 		PUPPET_META_DATA_CHEK_MAIL="<span class='error'>${value}</span>"
 	fi
 
+
 msg "4. Unit Testing"
 	
 	unit_testing=`grep --text -P '^[0-9]+ examples, [0-9]+ failures' $WORKSPACE/log/unit_testing_resource_coverage.txt`
